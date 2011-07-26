@@ -109,5 +109,13 @@
 
 }
 
+#pragma mark - Handle External URL
+
+- (BOOL)handleOpenURL:(NSURL *)URL{
+    // this should prolly check first
+    [[TTNavigator navigator] openURLAction:[TTURLAction actionWithURLPath:URL.absoluteString]];
+    return YES;
+}
+
 
 @end

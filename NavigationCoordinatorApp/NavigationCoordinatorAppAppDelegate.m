@@ -11,9 +11,6 @@
 #import "LVNavigationCoordinatorFactory.h"
 
 
-#import "SplitCatalogController.h"
-#import "CatalogController.h"
-#import "DetailDummyViewController.h"
 @implementation NavigationCoordinatorAppAppDelegate
 
 
@@ -37,8 +34,7 @@
 }
 
 - (BOOL)application:(UIApplication*)application handleOpenURL:(NSURL*)URL {
-    [[TTNavigator navigator] openURLAction:[TTURLAction actionWithURLPath:URL.absoluteString]];
-    return YES;
+    return [[LVNavigationCoordinatorFactory navigationCoordinator] handleOpenURL:URL];
 }
 
 

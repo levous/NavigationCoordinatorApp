@@ -19,5 +19,6 @@
 
 - (void)wireNavigatorsToSplitView:(TTSplitViewController *)splitView;
 - (void)presentFirstScreen;
+- (BOOL)handleOpenURL:(NSURL *)URL;
 
 @end
