@@ -68,6 +68,7 @@ static int navigator_key_count = 1;
     if ([navigator persistenceKey] == nil) {
         [navigator setPersistenceKey:[NSString stringWithFormat:@"navigator%i", ++navigator_key_count]];
     }
+    
     return navigator;
 }
 

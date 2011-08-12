@@ -17,9 +17,7 @@ static LVNavigationCoordinator *instance;
 
 + (void)mapApplicationRoutes:(LVNavigationCoordinator *)navigationCoordinator{
     
-    // route generic path to web vc
     TTURLMap *map = [navigationCoordinator defaultURLMap];
-    [map from:@"*" toViewController:[TTWebController class]];
     
     // set the first path to load on startup
     [navigationCoordinator setDefaultStartUpPath:@"tt://catalog"];
@@ -125,10 +123,14 @@ static LVNavigationCoordinator *instance;
                 selector: nil
               transition: 0];
     
+    // route generic path to web vc
+    // [map from:@"*" toViewController:[TTWebController class]];
+    
+    
     
     // load detail pane with something...
-    [navigationCoordinator navigateToPath:@"http://google.com/"];
-    [navigationCoordinator navigateToPath:@"http://three20.info/"];
+    [navigationCoordinator navigateToPath:@"tt://launcherTest"];
+    [navigationCoordinator navigateToPath:@"tt://imageTest2"];
     
 }
 
