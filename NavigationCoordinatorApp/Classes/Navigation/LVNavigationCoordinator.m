@@ -8,14 +8,18 @@
 
 #import "LVNavigationCoordinator.h"
 #import "Three20/Three20.h"
+#import "LVNavigationState.h"
+
+static int navigator_key_count = 1;
 
 @interface LVNavigationCoordinator (Private) 
 - (void)setupNavigators; 
+- (TTNavigator *)normalizeNavigator:(TTNavigator *)navigator;
 @end
 
 
 @implementation LVNavigationCoordinator
-@synthesize defaultURLMap, defaultStartUpPath, masterPaneNavigator, detailPaneNavigator;
+@synthesize defaultURLMap, defaultStartUpPath, registeredNavigators, activeNavigationState;
 
 #pragma mark - init and dealloc
 
@@ -26,11 +30,22 @@
 
 - (id)init{
     if ((self = [super init])) {
-        TTNavigator* navigator = [TTNavigator navigator];
+        TTNavigator* navigator = [self normalizeNavigator:[TTNavigator navigator]];
         navigator.supportsShakeToReload = YES;
         navigator.persistenceMode = TTNavigatorPersistenceModeAll;
         // provide the default map for convenience and simplicity
         [self setDefaultURLMap:navigator.URLMap];
+        // create the set to hold navigators
+        [self setRegisteredNavigators:[NSMutableSet set]];
+        // register the first, root navigator
+        //TODO: since the state class will retain the navigators used as 
+        //  activeNavigationStateItem keys,
+        //  this needs to be proxied through registerNavigator and unRegisterNavigator 
+        //  methods so that the state can be discarded as well.  Also, ensure persistence key is set
+        [[self registeredNavigators] addObject:navigator];
+        // initialize empty state
+        [self setActiveNavigationState:[[[LVNavigationState alloc] init] autorelease]];
+        
     }
     return self;
 }
@@ -43,53 +58,85 @@
     [TTNavigator navigator].rootContainer = rootViewController;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-- (void)setupMasterPaneNavigator {
-    TTURLMap* map = self.masterPaneNavigator.URLMap;
-    
-    // Forward all unhandled URL actions to the detail navigator.
-    [map              from: @"*"
-                  toObject: self
-                  selector: @selector(openDetailPaneURLAction:)];
-    
-}
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-- (void)setupDetailPaneNavigator {
-    TTURLMap* map = self.detailPaneNavigator.URLMap;
-    
-    // any unhandled route will attempt a web url
-    [map                    from: @"*"
-                toViewController: [TTWebController class]];
-}
-
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setupNavigators {
-    [self setupDetailPaneNavigator];
-    [self setupMasterPaneNavigator];
+    
 }
 
-- (void)wireNavigatorsToSplitView:(TTSplitViewController *)splitView{
-    [self setMasterPaneNavigator:[splitView secondaryNavigator]];
-    [self setDetailPaneNavigator:[splitView primaryNavigator]];
+- (TTNavigator *)normalizeNavigator:(TTNavigator *)navigator{
+    if ([navigator persistenceKey] == nil) {
+        [navigator setPersistenceKey:[NSString stringWithFormat:@"navigator%i", ++navigator_key_count]];
+    }
+    return navigator;
+}
+
+- (void)wireNavigatorsFromSplitView:(TTSplitViewController *)splitView{
+    [[self registeredNavigators] addObject:[self normalizeNavigator:[splitView secondaryNavigator]]];
+    [[self registeredNavigators] addObject:[self normalizeNavigator:[splitView primaryNavigator]]];
     [self setupNavigators];
 }
 
 #pragma mark - TTNavigator delegation
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-- (void)openDetailPaneURLAction:(NSURL*)url {
-    [[self detailPaneNavigator] setRootViewController:nil];
-    [[self detailPaneNavigator] openURLAction:[TTURLAction actionWithURLPath:url.absoluteString]];
+
+
+#pragma mark - Path Navigation
+
+
+- (UIViewController *)navigateWithURLAction:(TTURLAction *)urlAction{
+    __block BOOL mapped = NO;
+    __block UIViewController *mappedViewController = nil;
+    __block TTNavigator *mappedNavigator;
+    // enumerate the registered navigators, the first one that handles the url action wins
+    [[self registeredNavigators] enumerateObjectsUsingBlock:^(id navigator, BOOL *stop) {
+        // try to navigate using the navigator
+        mappedViewController = [navigator openURLAction:urlAction];
+        // if a viewcontroller was loaded, sweet!  
+        if (mappedViewController) {
+            *stop = YES;
+            mapped = YES;
+            mappedNavigator = (TTNavigator *)navigator;
+        }
+    }];
+    
+    if(mapped){
+        // set new active nav state
+        [[self activeNavigationState] recordActivePath:[urlAction urlPath] navigator:mappedNavigator viewController:mappedViewController];
+    }
+    
+    return mappedViewController;
 }
+
+- (BOOL)navigateToPath:(NSString *)path{
+    // call through to overload passing nil for data dictionary
+    return [self navigateToPath:path withDataDictionary:nil];
+}
+
+- (BOOL)navigateToPath:(NSString *)path withDataDictionary:(NSDictionary *)data{
+    // set up TTURLAction with path, data dictionary and standard animated transition
+	TTURLAction *urlAction = [[[TTURLAction actionWithURLPath:path] applyQuery:data] applyAnimated:YES];
+    // navigate, capturing the mapped view controller
+    
+    // which navigator should handle this path
+	UIViewController *mappedViewController = [self navigateWithURLAction:urlAction];
+    // verify successful map.  Return false on failure (could return an error through an out param to be Cocoa stylish)
+    if(!mappedViewController){
+        NSLog(@"No view controller matches path: %@", path);
+        return NO;
+    }
+    
+    // if we choose to raise a nav notification, this would be the place
+    // return success
+    return YES;
+}
+
 
 #pragma mark - Present first screen
 
 - (void)presentFirstScreen{
     // load default startup path
-    [[self masterPaneNavigator] openURLs:[self defaultStartUpPath], nil];
+    [self navigateToPath:[self defaultStartUpPath]];
     
     /*********************
      RZ 2011-07-25

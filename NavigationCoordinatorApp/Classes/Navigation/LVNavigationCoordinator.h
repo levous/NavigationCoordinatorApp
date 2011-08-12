@@ -7,18 +7,27 @@
 //
 
 #import <Foundation/Foundation.h>
-@class TTNavigator, TTURLMap, TTRootViewController, TTSplitViewController;
+@class TTNavigator, TTURLMap, TTRootViewController, TTSplitViewController, LVNavigationState, LVNavigationStateItem;
 
 @interface LVNavigationCoordinator : NSObject {
-    TTRootViewController* rootViewController;
+    TTRootViewController *rootViewController;
 }
 
-@property(assign, nonatomic) TTNavigator *masterPaneNavigator, *detailPaneNavigator;
+@property(retain, nonatomic) NSMutableSet *registeredNavigators;
 @property(assign, nonatomic) TTURLMap *defaultURLMap;
 @property(copy, nonatomic) NSString *defaultStartUpPath;
+@property(retain, nonatomic) LVNavigationState *activeNavigationState;
 
-- (void)wireNavigatorsToSplitView:(TTSplitViewController *)splitView;
+
+- (void)wireNavigatorsFromSplitView:(TTSplitViewController *)splitView;
 - (void)presentFirstScreen;
 - (BOOL)handleOpenURL:(NSURL *)URL;
+
+#pragma mark - Path Navigation
+
+/** Navigates the application using the provided path */
+- (BOOL)navigateToPath:(NSString *)path;
+/** Navigates the application using the provided path, passing the data dictionary to mapped the view controller*/
+- (BOOL)navigateToPath:(NSString *)path withDataDictionary:(NSDictionary *)data;
 
 @end

@@ -25,20 +25,27 @@ static LVNavigationCoordinator *instance;
     [navigationCoordinator setDefaultStartUpPath:@"tt://catalog"];
     
     if (TTIsPad()) {
+        // map the root navigator to the split view
+        
         [map                    from: @"tt://catalog"
               toSharedViewController: [SplitCatalogController class]];
         
+                
         SplitCatalogController* controller =
         (SplitCatalogController*)[[TTNavigator navigator] viewControllerForURL:@"tt://catalog"];
         
-        // set up multiple navigators
-        [navigationCoordinator wireNavigatorsToSplitView:controller];
+        // TTSplitView (SplitCatalogController's super) is set up with primary navigator attached to detail pane
+        //  and secondary navigator attached to master pane
+
+        
+        // set up multiple navigators from split view to 
+        [navigationCoordinator wireNavigatorsFromSplitView:controller];
         
         TTDASSERT([controller isKindOfClass:[SplitCatalogController class]]);
         map = controller.primaryNavigator.URLMap; 
         
         // set up master pane navigator to respond to catalog path
-        [[[navigationCoordinator masterPaneNavigator] URLMap] from: @"tt://catalog"
+        [controller.secondaryNavigator.URLMap from: @"tt://catalog"
                                                   toViewController: [CatalogController class]];
         
         // all remaining routes will forward to the detail pane
@@ -120,7 +127,8 @@ static LVNavigationCoordinator *instance;
     
     
     // load detail pane with something...
-    [[navigationCoordinator detailPaneNavigator] openURLs:@"http://google.com/", @"http://three20.info/", nil];
+    [navigationCoordinator navigateToPath:@"http://google.com/"];
+    [navigationCoordinator navigateToPath:@"http://three20.info/"];
     
 }
 

@@ -40,6 +40,11 @@
 		FB94131D13DE5D7000AB0DB7 /* DetailDummyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB94131B13DE5D7000AB0DB7 /* DetailDummyViewController.m */; };
 		FB94131E13DE5D7000AB0DB7 /* DetailDummyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB94131C13DE5D7000AB0DB7 /* DetailDummyViewController.xib */; };
 		FB94132113DE5F5A00AB0DB7 /* LVNavigationCoordinatorFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = FB94132013DE5F5A00AB0DB7 /* LVNavigationCoordinatorFactory.m */; };
+		FBDA57E013F4BEAF009F74A9 /* LVNavigationCoordinatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FBDA57DC13F4BEAF009F74A9 /* LVNavigationCoordinatorTests.m */; };
+		FBDA57E113F4BEAF009F74A9 /* LVSplitControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FBDA57DF13F4BEAF009F74A9 /* LVSplitControllerTests.m */; };
+		FBDA57E413F4C081009F74A9 /* LVNavigationState.m in Sources */ = {isa = PBXBuildFile; fileRef = FBDA57E313F4C081009F74A9 /* LVNavigationState.m */; };
+		FBDA57E813F4C305009F74A9 /* LVTestNavigationCoordinatorFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = FBDA57E713F4C305009F74A9 /* LVTestNavigationCoordinatorFactory.m */; };
+		FBDA57EB13F4C47D009F74A9 /* LVMainTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = FBDA57EA13F4C47D009F74A9 /* LVMainTabBarController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +101,16 @@
 		FB94131C13DE5D7000AB0DB7 /* DetailDummyViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailDummyViewController.xib; sourceTree = "<group>"; };
 		FB94131F13DE5F5A00AB0DB7 /* LVNavigationCoordinatorFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVNavigationCoordinatorFactory.h; sourceTree = "<group>"; };
 		FB94132013DE5F5A00AB0DB7 /* LVNavigationCoordinatorFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVNavigationCoordinatorFactory.m; sourceTree = "<group>"; };
+		FBDA57DB13F4BEAF009F74A9 /* LVNavigationCoordinatorTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVNavigationCoordinatorTests.h; sourceTree = "<group>"; };
+		FBDA57DC13F4BEAF009F74A9 /* LVNavigationCoordinatorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVNavigationCoordinatorTests.m; sourceTree = "<group>"; };
+		FBDA57DE13F4BEAF009F74A9 /* LVSplitControllerTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVSplitControllerTests.h; sourceTree = "<group>"; };
+		FBDA57DF13F4BEAF009F74A9 /* LVSplitControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVSplitControllerTests.m; sourceTree = "<group>"; };
+		FBDA57E213F4C081009F74A9 /* LVNavigationState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVNavigationState.h; sourceTree = "<group>"; };
+		FBDA57E313F4C081009F74A9 /* LVNavigationState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVNavigationState.m; sourceTree = "<group>"; };
+		FBDA57E613F4C305009F74A9 /* LVTestNavigationCoordinatorFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVTestNavigationCoordinatorFactory.h; sourceTree = "<group>"; };
+		FBDA57E713F4C305009F74A9 /* LVTestNavigationCoordinatorFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVTestNavigationCoordinatorFactory.m; sourceTree = "<group>"; };
+		FBDA57E913F4C47C009F74A9 /* LVMainTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVMainTabBarController.h; sourceTree = "<group>"; };
+		FBDA57EA13F4C47D009F74A9 /* LVMainTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVMainTabBarController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -218,6 +233,7 @@
 		FB94125B13DE574500AB0DB7 /* NavigationCoordinatorAppTests */ = {
 			isa = PBXGroup;
 			children = (
+				FBDA57D913F4BEAF009F74A9 /* TestClasses */,
 				FB94126213DE574500AB0DB7 /* NavigationCoordinatorAppTests.h */,
 				FB94126413DE574500AB0DB7 /* NavigationCoordinatorAppTests.m */,
 				FB94125C13DE574500AB0DB7 /* Supporting Files */,
@@ -251,6 +267,8 @@
 			children = (
 				FB94128513DE57E200AB0DB7 /* LVNavigationCoordinator.h */,
 				FB94128613DE57E200AB0DB7 /* LVNavigationCoordinator.m */,
+				FBDA57E213F4C081009F74A9 /* LVNavigationState.h */,
+				FBDA57E313F4C081009F74A9 /* LVNavigationState.m */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
@@ -265,6 +283,37 @@
 				FB94131A13DE5D7000AB0DB7 /* DetailDummyViewController.h */,
 				FB94131B13DE5D7000AB0DB7 /* DetailDummyViewController.m */,
 				FB94131C13DE5D7000AB0DB7 /* DetailDummyViewController.xib */,
+				FBDA57E913F4C47C009F74A9 /* LVMainTabBarController.h */,
+				FBDA57EA13F4C47D009F74A9 /* LVMainTabBarController.m */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		FBDA57D913F4BEAF009F74A9 /* TestClasses */ = {
+			isa = PBXGroup;
+			children = (
+				FBDA57DA13F4BEAF009F74A9 /* Navigation */,
+				FBDA57DD13F4BEAF009F74A9 /* ViewControllers */,
+			);
+			path = TestClasses;
+			sourceTree = "<group>";
+		};
+		FBDA57DA13F4BEAF009F74A9 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				FBDA57DB13F4BEAF009F74A9 /* LVNavigationCoordinatorTests.h */,
+				FBDA57DC13F4BEAF009F74A9 /* LVNavigationCoordinatorTests.m */,
+				FBDA57E613F4C305009F74A9 /* LVTestNavigationCoordinatorFactory.h */,
+				FBDA57E713F4C305009F74A9 /* LVTestNavigationCoordinatorFactory.m */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
+		FBDA57DD13F4BEAF009F74A9 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				FBDA57DE13F4BEAF009F74A9 /* LVSplitControllerTests.h */,
+				FBDA57DF13F4BEAF009F74A9 /* LVSplitControllerTests.m */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -388,6 +437,8 @@
 				FB94128E13DE57E200AB0DB7 /* SplitCatalogController.m in Sources */,
 				FB94131D13DE5D7000AB0DB7 /* DetailDummyViewController.m in Sources */,
 				FB94132113DE5F5A00AB0DB7 /* LVNavigationCoordinatorFactory.m in Sources */,
+				FBDA57E413F4C081009F74A9 /* LVNavigationState.m in Sources */,
+				FBDA57EB13F4C47D009F74A9 /* LVMainTabBarController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -396,6 +447,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				FB94126513DE574500AB0DB7 /* NavigationCoordinatorAppTests.m in Sources */,
+				FBDA57E013F4BEAF009F74A9 /* LVNavigationCoordinatorTests.m in Sources */,
+				FBDA57E113F4BEAF009F74A9 /* LVSplitControllerTests.m in Sources */,
+				FBDA57E813F4C305009F74A9 /* LVTestNavigationCoordinatorFactory.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -536,6 +590,7 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NavigationCoordinatorAppTests/NavigationCoordinatorAppTests-Prefix.pch";
+				HEADER_SEARCH_PATHS = "\"${SRCROOT}/Three20/Products/three20\"";
 				INFOPLIST_FILE = "NavigationCoordinatorAppTests/NavigationCoordinatorAppTests-Info.plist";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -558,6 +613,7 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NavigationCoordinatorAppTests/NavigationCoordinatorAppTests-Prefix.pch";
+				HEADER_SEARCH_PATHS = "\"${SRCROOT}/Three20/Products/three20\"";
 				INFOPLIST_FILE = "NavigationCoordinatorAppTests/NavigationCoordinatorAppTests-Info.plist";
 				OTHER_LDFLAGS = (
 					"-framework",
