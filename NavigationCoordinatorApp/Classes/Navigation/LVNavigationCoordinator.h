@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Three20/Three20.h>
+
 @class TTNavigator, TTURLMap, TTRootViewController, TTSplitViewController, LVNavigationState, LVNavigationStateItem;
 
 @interface LVNavigationCoordinator : NSObject<TTNavigatorDelegate> {

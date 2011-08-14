@@ -51,6 +51,8 @@ static int navigator_key_count = 1;
         [[self registeredNavigators] addObject:navigator];
         // initialize empty state
         [self setActiveNavigationState:[[[LVNavigationState alloc] init] autorelease]];
+        // initialize empty path handlers dicitonary
+        [self setPathHandlers:[NSMutableDictionary dictionary]];
         
     }
     return self;
@@ -81,6 +83,8 @@ static int navigator_key_count = 1;
     }
     
     [navigator setDelegate:self];
+    return navigator;
+    
 }
 
 - (void)wireNavigatorsFromSplitView:(TTSplitViewController *)splitView{
@@ -100,8 +104,12 @@ static int navigator_key_count = 1;
  * method is equivalent to returning URL from this method.
  */
 - (NSURL*)navigator:(TTBaseNavigator*)navigator URLToOpen:(NSURL*)URL{
-    if ([pathHandlers objectForKey:URL]) {
-        [self navigateToPath:[URL absoluteString]];
+    NSString *urlString = [URL absoluteString];
+    // check for presence of handler
+    if (![pathHandlers objectForKey:urlString]) {
+        // redirect navigation through navigation coordinator
+        NSLog(@"ttNav delegate redirecting %@ through navCoord", urlString);
+        [self navigateToPath:urlString];
         return nil;
     }
     
@@ -116,6 +124,8 @@ static int navigator_key_count = 1;
 - (void)navigator:(TTBaseNavigator*)navigator 
       willOpenURL:(NSURL*)URL
  inViewController:(UIViewController*)controller{
+    NSLog(@"ttNav delegate: navigator handled url %@", URL);
+    
     [pathHandlers removeObjectForKey:URL];
 }
 
@@ -124,15 +134,19 @@ static int navigator_key_count = 1;
 
 - (UIViewController *)navigateWithURLAction:(TTURLAction *)urlAction{
     
-    
-    [pathHandlers setObject forKey:[urlAction urlPath]];
+    NSString *stringPath = [urlAction urlPath];
+    // inserting an NSObject instance.  Expect to use something more meaningful but not needed yet.
+    // Using this to indicate that the navigation was intiated through this selector rather than
+    // using a ttNavigator directly
+    [pathHandlers setObject:[[[NSObject alloc] init] autorelease] forKey:stringPath];
     __block BOOL mapped = NO;
     __block UIViewController *mappedViewController = nil;
     __block TTNavigator *mappedNavigator;
     // enumerate the registered navigators, the first one that handles the url action wins
     [[self registeredNavigators] enumerateObjectsUsingBlock:^(id navigator, BOOL *stop) {
         // inspect the navigator url map to determine if it handles it
-        TTNavigationMode *navMode = [navigator navigationModeForURL:[urlAction urlPath]];
+        
+        TTNavigationMode navMode = [[navigator URLMap] navigationModeForURL:stringPath];
         // try to navigate using the navigator
         mappedViewController = [navigator openURLAction:urlAction];
         // if a viewcontroller was loaded, sweet!  
@@ -145,7 +159,7 @@ static int navigator_key_count = 1;
     
     if(mapped){
         // set new active nav state
-        [[self activeNavigationState] recordActivePath:[urlAction urlPath] navigator:mappedNavigator viewController:mappedViewController];
+        [[self activeNavigationState] recordActivePath:stringPath navigator:mappedNavigator viewController:mappedViewController];
     }
     
     return mappedViewController;
