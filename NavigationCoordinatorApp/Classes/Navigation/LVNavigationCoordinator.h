@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 @class TTNavigator, TTURLMap, TTRootViewController, TTSplitViewController, LVNavigationState, LVNavigationStateItem;
 
-@interface LVNavigationCoordinator : NSObject {
+@interface LVNavigationCoordinator : NSObject<TTNavigatorDelegate> {
     TTRootViewController *rootViewController;
 }
 
@@ -17,6 +17,7 @@
 @property(assign, nonatomic) TTURLMap *defaultURLMap;
 @property(copy, nonatomic) NSString *defaultStartUpPath;
 @property(retain, nonatomic) LVNavigationState *activeNavigationState;
+@property(retain, nonatomic) NSMutableDictionary *pathHandlers;
 
 
 - (void)wireNavigatorsFromSplitView:(TTSplitViewController *)splitView;

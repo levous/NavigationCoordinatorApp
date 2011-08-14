@@ -20,11 +20,17 @@ static int navigator_key_count = 1;
 
 @implementation LVNavigationCoordinator
 @synthesize defaultURLMap, defaultStartUpPath, registeredNavigators, activeNavigationState;
+@synthesize pathHandlers;
 
 #pragma mark - init and dealloc
 
 - (void)dealloc{
     TT_RELEASE_SAFELY(rootViewController);
+    TT_RELEASE_SAFELY(pathHandlers);
+    TT_RELEASE_SAFELY(registeredNavigators);
+    TT_RELEASE_SAFELY(defaultURLMap);
+    TT_RELEASE_SAFELY(activeNavigationState);
+    
     [super dealloc];
 }
 
@@ -69,7 +75,12 @@ static int navigator_key_count = 1;
         [navigator setPersistenceKey:[NSString stringWithFormat:@"navigator%i", ++navigator_key_count]];
     }
     
-    return navigator;
+    // wire self as delegate
+    if ([navigator delegate]) {
+        NSLog(@"UH OH!  The TTNavigator already had a delegate.  We'll have to build in a dictionary that allows us to intercept and then forward the delegation.  But that's not there yet!");
+    }
+    
+    [navigator setDelegate:self];
 }
 
 - (void)wireNavigatorsFromSplitView:(TTSplitViewController *)splitView{
@@ -81,16 +92,47 @@ static int navigator_key_count = 1;
 #pragma mark - TTNavigator delegation
 
 
+/**
+ * Asks if the URL should be opened and allows the delegate to return a different URL to open
+ * instead. A return value of nil indicates the URL should not be opened.
+ *
+ * This is a superset of the functionality of -navigator:shouldOpenURL:. Returning YES from that
+ * method is equivalent to returning URL from this method.
+ */
+- (NSURL*)navigator:(TTBaseNavigator*)navigator URLToOpen:(NSURL*)URL{
+    if ([pathHandlers objectForKey:URL]) {
+        [self navigateToPath:[URL absoluteString]];
+        return nil;
+    }
+    
+    return URL;
+}
+
+/**
+ * The URL is about to be opened in a controller.
+ *
+ * If the controller argument is nil, the URL is going to be opened externally.
+ */
+- (void)navigator:(TTBaseNavigator*)navigator 
+      willOpenURL:(NSURL*)URL
+ inViewController:(UIViewController*)controller{
+    [pathHandlers removeObjectForKey:URL];
+}
+
 
 #pragma mark - Path Navigation
 
-
 - (UIViewController *)navigateWithURLAction:(TTURLAction *)urlAction{
+    
+    
+    [pathHandlers setObject forKey:[urlAction urlPath]];
     __block BOOL mapped = NO;
     __block UIViewController *mappedViewController = nil;
     __block TTNavigator *mappedNavigator;
     // enumerate the registered navigators, the first one that handles the url action wins
     [[self registeredNavigators] enumerateObjectsUsingBlock:^(id navigator, BOOL *stop) {
+        // inspect the navigator url map to determine if it handles it
+        TTNavigationMode *navMode = [navigator navigationModeForURL:[urlAction urlPath]];
         // try to navigate using the navigator
         mappedViewController = [navigator openURLAction:urlAction];
         // if a viewcontroller was loaded, sweet!  
