@@ -159,7 +159,8 @@ static int navigator_key_count = 1;
             *stop = YES;
             mapped = YES;
             mappedNavigator = (TTNavigator *)navigator;
-            
+            // view controller is released when unit testing.  release after adding to state
+            [mappedViewController retain];
             NSLog(@"%@ handled by navigator with persistence key:%@", stringPath, [navigator persistenceKey]);
         }
     }];
@@ -167,6 +168,8 @@ static int navigator_key_count = 1;
     if(mapped){
         // set new active nav state
         [[self activeNavigationState] recordActivePath:stringPath navigator:mappedNavigator viewController:mappedViewController];
+        // retain is sent when mapping succeeds inside iterator
+        [mappedViewController release];
     }
     
     return mappedViewController;

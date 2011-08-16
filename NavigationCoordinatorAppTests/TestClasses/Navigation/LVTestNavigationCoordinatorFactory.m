@@ -9,6 +9,7 @@
 #import "LVTestNavigationCoordinatorFactory.h"
 #import <Three20/Three20.h>
 #import "LVMainTabBarController.h"
+#import "CatalogController.h"
 
 @implementation LVTestNavigationCoordinatorFactory
 
@@ -25,6 +26,8 @@ static LVNavigationCoordinator *defaultInstance;
     
     // Main tab , which serves as the apps container view controller
     [navMap from:@"navApp://tabBarMain" toSharedViewController:[LVMainTabBarController class]];
+    // Main tab , which serves as the apps container view controller
+    [navMap from:@"navApp://catalog" toSharedViewController:[CatalogController class]];
     
     
         

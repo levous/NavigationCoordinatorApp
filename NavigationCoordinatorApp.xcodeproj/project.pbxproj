@@ -33,8 +33,6 @@
 		FB94125713DE574500AB0DB7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB94122E13DE574500AB0DB7 /* CoreGraphics.framework */; };
 		FB94125813DE574500AB0DB7 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB94123013DE574500AB0DB7 /* CoreData.framework */; };
 		FB94126013DE574500AB0DB7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FB94125E13DE574500AB0DB7 /* InfoPlist.strings */; };
-		FB94126313DE574500AB0DB7 /* NavigationCoordinatorAppTests.h in Resources */ = {isa = PBXBuildFile; fileRef = FB94126213DE574500AB0DB7 /* NavigationCoordinatorAppTests.h */; };
-		FB94126513DE574500AB0DB7 /* NavigationCoordinatorAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FB94126413DE574500AB0DB7 /* NavigationCoordinatorAppTests.m */; };
 		FB94128C13DE57E200AB0DB7 /* LVNavigationCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = FB94128613DE57E200AB0DB7 /* LVNavigationCoordinator.m */; };
 		FB94128D13DE57E200AB0DB7 /* CatalogController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB94128913DE57E200AB0DB7 /* CatalogController.m */; };
 		FB94128E13DE57E200AB0DB7 /* SplitCatalogController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB94128B13DE57E200AB0DB7 /* SplitCatalogController.m */; };
@@ -229,6 +227,7 @@
 		320CC833B8AF0ACFD35E6220 /* Three20Style.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Three20Style.xcodeproj; path = ../three20/src/Three20Style/Three20Style.xcodeproj; sourceTree = SOURCE_ROOT; };
 		320D7DCCE32703ACAB9A45E0 /* Three20.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Three20.xcodeproj; path = ../three20/src/Three20/Three20.xcodeproj; sourceTree = SOURCE_ROOT; };
 		320F2C48872C2E2C4DF86200 /* Three20UI.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Three20UI.xcodeproj; path = ../three20/src/Three20UI/Three20UI.xcodeproj; sourceTree = SOURCE_ROOT; };
+		A98D2FD713FAFBE10094C181 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		FB94122613DE574500AB0DB7 /* NavigationCoordinatorApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NavigationCoordinatorApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB94122A13DE574500AB0DB7 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		FB94122C13DE574500AB0DB7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -251,8 +250,6 @@
 		FB94125D13DE574500AB0DB7 /* NavigationCoordinatorAppTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NavigationCoordinatorAppTests-Info.plist"; sourceTree = "<group>"; };
 		FB94125F13DE574500AB0DB7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FB94126113DE574500AB0DB7 /* NavigationCoordinatorAppTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NavigationCoordinatorAppTests-Prefix.pch"; sourceTree = "<group>"; };
-		FB94126213DE574500AB0DB7 /* NavigationCoordinatorAppTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NavigationCoordinatorAppTests.h; sourceTree = "<group>"; };
-		FB94126413DE574500AB0DB7 /* NavigationCoordinatorAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NavigationCoordinatorAppTests.m; sourceTree = "<group>"; };
 		FB94127213DE575500AB0DB7 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		FB94128513DE57E200AB0DB7 /* LVNavigationCoordinator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVNavigationCoordinator.h; sourceTree = "<group>"; };
 		FB94128613DE57E200AB0DB7 /* LVNavigationCoordinator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVNavigationCoordinator.m; sourceTree = "<group>"; };
@@ -379,6 +376,7 @@
 		FB94121B13DE574500AB0DB7 = {
 			isa = PBXGroup;
 			children = (
+				A98D2FD713FAFBE10094C181 /* README.md */,
 				FB94123213DE574500AB0DB7 /* NavigationCoordinatorApp */,
 				FB94125B13DE574500AB0DB7 /* NavigationCoordinatorAppTests */,
 				FB94122913DE574500AB0DB7 /* Frameworks */,
@@ -465,8 +463,6 @@
 			isa = PBXGroup;
 			children = (
 				FBDA57D913F4BEAF009F74A9 /* TestClasses */,
-				FB94126213DE574500AB0DB7 /* NavigationCoordinatorAppTests.h */,
-				FB94126413DE574500AB0DB7 /* NavigationCoordinatorAppTests.m */,
 				FB94125C13DE574500AB0DB7 /* Supporting Files */,
 			);
 			path = NavigationCoordinatorAppTests;
@@ -785,7 +781,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FB94126013DE574500AB0DB7 /* InfoPlist.strings in Resources */,
-				FB94126313DE574500AB0DB7 /* NavigationCoordinatorAppTests.h in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -831,7 +826,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FB94126513DE574500AB0DB7 /* NavigationCoordinatorAppTests.m in Sources */,
 				FBDA57E013F4BEAF009F74A9 /* LVNavigationCoordinatorTests.m in Sources */,
 				FBDA57E113F4BEAF009F74A9 /* LVSplitControllerTests.m in Sources */,
 				FBDA57E813F4C305009F74A9 /* LVTestNavigationCoordinatorFactory.m in Sources */,
