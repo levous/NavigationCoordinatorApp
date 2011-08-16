@@ -10,6 +10,15 @@
 
 
 @implementation DetailDummyViewController
+@synthesize pathLabel;
+
+- (id)initWithNavigatorURL:(NSURL*)URL query:(NSDictionary*)query {
+	self = [self initWithNibName:@"DetailDummyViewController" bundle:nil];
+    if (self) {
+        [[self pathLabel] setText:[URL absoluteString]];
+    }
+    return self;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -22,6 +31,7 @@
 
 - (void)dealloc
 {
+    [pathLabel release];
     [super dealloc];
 }
 
@@ -43,6 +53,7 @@
 
 - (void)viewDidUnload
 {
+    [self setPathLabel:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;

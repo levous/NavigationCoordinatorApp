@@ -7,7 +7,6 @@
 //
 
 #import "LVNavigationCoordinator.h"
-#import "Three20/Three20.h"
 #import "LVNavigationState.h"
 
 static int navigator_key_count = 1;
@@ -19,13 +18,12 @@ static int navigator_key_count = 1;
 
 
 @implementation LVNavigationCoordinator
-@synthesize defaultURLMap, defaultStartUpPath, registeredNavigators, activeNavigationState;
+@synthesize defaultURLMap, defaultStartUpPaths, registeredNavigators, activeNavigationState;
 @synthesize pathHandlers;
 
 #pragma mark - init and dealloc
 
 - (void)dealloc{
-    TT_RELEASE_SAFELY(rootViewController);
     TT_RELEASE_SAFELY(pathHandlers);
     TT_RELEASE_SAFELY(registeredNavigators);
     TT_RELEASE_SAFELY(defaultURLMap);
@@ -60,11 +58,6 @@ static int navigator_key_count = 1;
 
 #pragma mark - Class initialization
 
-- (void)configureRootViewController{
-    rootViewController = [[TTRootViewController alloc] init];
-    [[TTNavigator navigator].window addSubview:rootViewController.view];
-    [TTNavigator navigator].rootContainer = rootViewController;
-}
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -88,8 +81,11 @@ static int navigator_key_count = 1;
 }
 
 - (void)wireNavigatorsFromSplitView:(TTSplitViewController *)splitView{
-    [[self registeredNavigators] addObject:[self normalizeNavigator:[splitView secondaryNavigator]]];
-    [[self registeredNavigators] addObject:[self normalizeNavigator:[splitView primaryNavigator]]];
+    [[self registeredNavigators] addObject:[self normalizeNavigator:[splitView leftNavigator]]];
+    [[self registeredNavigators] addObject:[self normalizeNavigator:[splitView rightNavigator]]];
+    NSLog(@"splitview left navigator persistence key:%@", [[splitView leftNavigator] persistenceKey]);
+    NSLog(@"splitview right navigator persistence key:%@", [[splitView rightNavigator] persistenceKey]);
+    
     [self setupNavigators];
 }
 
@@ -126,7 +122,8 @@ static int navigator_key_count = 1;
  inViewController:(UIViewController*)controller{
     NSLog(@"ttNav delegate: navigator handled url %@", URL);
     
-    [pathHandlers removeObjectForKey:URL];
+    NSString *urlString = [URL absoluteString];
+    [pathHandlers removeObjectForKey:urlString];
 }
 
 
@@ -154,6 +151,8 @@ static int navigator_key_count = 1;
             *stop = YES;
             mapped = YES;
             mappedNavigator = (TTNavigator *)navigator;
+            
+            NSLog(@"%@ handled by navigator with persistence key:%@", stringPath, [navigator persistenceKey]);
         }
     }];
     
@@ -192,24 +191,18 @@ static int navigator_key_count = 1;
 #pragma mark - Present first screen
 
 - (void)presentFirstScreen{
-    // load default startup path
-    [self navigateToPath:[self defaultStartUpPath]];
+    // load default startup paths
+    for (NSString *path in [self defaultStartUpPaths]) {
+        [self navigateToPath:path];    
+    }
     
-    /*********************
-     RZ 2011-07-25
-       More testing needed prior to removing this completely.  It was in the sample but may not be necessary.
-       If tested thoroughly, remove this and the configureRootViewController method 
-    *********************/
-    //[self configureRootViewController];
-    
+    /*
+    // TODO: restore all navigators
     TTNavigator* navigator = [TTNavigator navigator];
     if (TTIsPad() || ![navigator restoreViewControllers]) {
         [navigator openURLAction:[TTURLAction actionWithURLPath:[self defaultStartUpPath]]];
     }
-    
-    [rootViewController showController: navigator.rootViewController
-                            transition: UIViewAnimationTransitionNone
-                              animated: NO];
+    */
 
 }
 

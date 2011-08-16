@@ -9,15 +9,14 @@
 #import <Foundation/Foundation.h>
 #import <Three20/Three20.h>
 
-@class TTNavigator, TTURLMap, TTRootViewController, TTSplitViewController, LVNavigationState, LVNavigationStateItem;
+@class LVNavigationState, LVNavigationStateItem;
 
 @interface LVNavigationCoordinator : NSObject<TTNavigatorDelegate> {
-    TTRootViewController *rootViewController;
 }
 
 @property(retain, nonatomic) NSMutableSet *registeredNavigators;
 @property(assign, nonatomic) TTURLMap *defaultURLMap;
-@property(copy, nonatomic) NSString *defaultStartUpPath;
+@property(retain, nonatomic) NSArray *defaultStartUpPaths;
 @property(retain, nonatomic) LVNavigationState *activeNavigationState;
 @property(retain, nonatomic) NSMutableDictionary *pathHandlers;
 

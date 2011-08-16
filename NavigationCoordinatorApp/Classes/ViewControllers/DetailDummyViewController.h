@@ -11,6 +11,8 @@
 
 @interface DetailDummyViewController : UIViewController {
     
+    UILabel *pathLabel;
 }
+@property (nonatomic, retain) IBOutlet UILabel *pathLabel;
 
 @end

@@ -17,20 +17,21 @@ static LVNavigationCoordinator *instance;
 
 + (void)mapApplicationRoutes:(LVNavigationCoordinator *)navigationCoordinator{
     
+    NSLog(@"shared navigator persistence key:%@", [[TTNavigator navigator] persistenceKey]);
     TTURLMap *map = [navigationCoordinator defaultURLMap];
     
     // set the first path to load on startup
-    [navigationCoordinator setDefaultStartUpPath:@"tt://catalog"];
+    [navigationCoordinator setDefaultStartUpPaths:[NSArray arrayWithObjects:@"tt://splitview", @"tt://catalog", @"tt://launcherTest", @"tt://imageTest2", nil]];
     
     if (TTIsPad()) {
         // map the root navigator to the split view
         
-        [map                    from: @"tt://catalog"
+        [map                    from: @"tt://splitview"
               toSharedViewController: [SplitCatalogController class]];
         
                 
         SplitCatalogController* controller =
-        (SplitCatalogController*)[[TTNavigator navigator] viewControllerForURL:@"tt://catalog"];
+        (SplitCatalogController*)[[TTNavigator navigator] viewControllerForURL:@"tt://splitview"];
         
         // TTSplitView (SplitCatalogController's super) is set up with primary navigator attached to detail pane
         //  and secondary navigator attached to master pane
@@ -40,11 +41,11 @@ static LVNavigationCoordinator *instance;
         [navigationCoordinator wireNavigatorsFromSplitView:controller];
         
         TTDASSERT([controller isKindOfClass:[SplitCatalogController class]]);
-        map = controller.primaryNavigator.URLMap; 
+        map = controller.rightNavigator.URLMap; 
         
         // set up master pane navigator to respond to catalog path
-        [controller.secondaryNavigator.URLMap from: @"tt://catalog"
-                                                  toViewController: [CatalogController class]];
+        [controller.leftNavigator.URLMap from: @"tt://catalog"
+                       toSharedViewController: [CatalogController class]];
         
         // all remaining routes will forward to the detail pane
         
@@ -54,29 +55,59 @@ static LVNavigationCoordinator *instance;
               toSharedViewController: [CatalogController class]];
     }
     
+    [map            from: @"tt://navRoot"
+  toSharedViewController: [DetailDummyViewController class]];
+
+    
     [map            from: @"tt://photoTest1"
-        toViewController: [DetailDummyViewController class]];
+                  parent: @"tt://navRoot"
+        toViewController: [DetailDummyViewController class]
+                selector: nil
+              transition: 0];    
+
+    
     
     [map            from: @"tt://photoTest2"
-        toViewController: [DetailDummyViewController class]];
+                  parent: @"tt://navRoot"
+        toViewController: [DetailDummyViewController class]
+                selector: nil
+              transition: 0];   
     
     [map            from: @"tt://imageTest1"
-        toViewController: [DetailDummyViewController class]];
+                  parent: @"tt://navRoot"
+        toViewController: [DetailDummyViewController class]
+                selector: nil
+              transition: 0];   
     
     [map            from: @"tt://tableTest"
-        toViewController: [DetailDummyViewController class]];
+                  parent: @"tt://navRoot"
+        toViewController: [DetailDummyViewController class]
+                selector: nil
+              transition: 0];   
     
     [map            from: @"tt://tableItemTest"
-        toViewController: [DetailDummyViewController class]];
+                  parent: @"tt://navRoot"
+        toViewController: [DetailDummyViewController class]
+                selector: nil
+              transition: 0];   
     
     [map            from: @"tt://tableControlsTest"
-        toViewController: [DetailDummyViewController class]];
+                  parent: @"tt://navRoot"
+        toViewController: [DetailDummyViewController class]
+                selector: nil
+              transition: 0];   
     
     [map            from: @"tt://styledTextTableTest"
-        toViewController: [DetailDummyViewController class]];
+                  parent: @"tt://navRoot"
+        toViewController: [DetailDummyViewController class]
+                selector: nil
+              transition: 0];   
     
     [map            from: @"tt://tableWithShadow"
-        toViewController: [DetailDummyViewController class]];
+                  parent: @"tt://navRoot"
+        toViewController: [DetailDummyViewController class]
+                selector: nil
+              transition: 0];   
     
     [map            from: @"tt://tableWithBanner"
         toViewController: [DetailDummyViewController class]];
@@ -118,19 +149,19 @@ static LVNavigationCoordinator *instance;
         toViewController: [DetailDummyViewController class]];
     
     [map            from: @"tt://dlprogress"
-                  parent: @"tt://catalog"
+                  parent: @"tt://navRoot"
         toViewController: [DetailDummyViewController class]
                 selector: nil
               transition: 0];
     
+        
     // route generic path to web vc
     // [map from:@"*" toViewController:[TTWebController class]];
     
     
-    
     // load detail pane with something...
-    [navigationCoordinator navigateToPath:@"tt://launcherTest"];
-    [navigationCoordinator navigateToPath:@"tt://imageTest2"];
+    /*[navigationCoordinator navigateToPath:@"tt://launcherTest"];
+    [navigationCoordinator navigateToPath:@"tt://imageTest2"];*/
     
 }
 

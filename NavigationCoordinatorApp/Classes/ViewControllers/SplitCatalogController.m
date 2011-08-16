@@ -31,17 +31,6 @@ static const CGFloat kBorderWidth = 1;
 }
 
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-- (void)updateLayoutWithOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    [super updateLayoutWithOrientation:interfaceOrientation];
-    
-    _dividerView.height = self.view.height;
-    _dividerView.width = kBorderWidth;
-    _dividerView.right = self.primaryViewController.view.left + _dividerView.width;
-    _dividerView.top = self.primaryViewController.view.top;
-    
-    [self.view bringSubviewToFront:_dividerView];
-}
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -63,7 +52,7 @@ static const CGFloat kBorderWidth = 1;
     _dividerView.autoresizingMask = (UIViewAutoresizingFlexibleHeight);
     [self.view addSubview:_dividerView];
     
-    [self updateLayoutWithOrientation:TTInterfaceOrientation()];
+    //[self updateLayoutWithOrientation:TTInterfaceOrientation()];
 }
 
 
@@ -75,18 +64,7 @@ static const CGFloat kBorderWidth = 1;
 }
 
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark -
-#pragma mark TTSplitViewController
 
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-- (void)primaryViewDidAppear:(BOOL)animated {
-    [super primaryViewDidAppear:animated];
-    
-    [self.view bringSubviewToFront:_dividerView];
-}
 
 
 
