@@ -144,6 +144,14 @@ static int navigator_key_count = 1;
         // inspect the navigator url map to determine if it handles it
         
         TTNavigationMode navMode = [[navigator URLMap] navigationModeForURL:stringPath];
+        // if it handles the path, check for the flag to force root navigation
+        if( navMode != TTNavigationModeNone )
+        {
+            if ([urlAction query] && [[urlAction query] objectForKey:@"isRootViewController"] ) {
+                [navigator removeAllViewControllers];
+            }
+        }
+        
         // try to navigate using the navigator
         mappedViewController = [navigator openURLAction:urlAction];
         // if a viewcontroller was loaded, sweet!  

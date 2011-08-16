@@ -14,10 +14,8 @@
 
 - (void)viewDidLoad{
     [self setTabURLs:[NSArray arrayWithObjects:
-                      @"navApp://patientTab", 
-                      @"navApp://appointmentTab",
-                      @"navApp://laborTab",
-                      @"navApp://messageTab",
+                      @"tt://splitview", 
+                      @"tt://anotherTab",
                       nil]];
 }
 

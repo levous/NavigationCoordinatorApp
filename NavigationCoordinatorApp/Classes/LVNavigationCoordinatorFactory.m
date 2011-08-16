@@ -10,6 +10,7 @@
 #import "SplitCatalogController.h"
 #import "CatalogController.h"
 #import "DetailDummyViewController.h"
+#import "LVMainTabBarController.h"
 
 @implementation LVNavigationCoordinatorFactory
 
@@ -21,13 +22,21 @@ static LVNavigationCoordinator *instance;
     TTURLMap *map = [navigationCoordinator defaultURLMap];
     
     // set the first path to load on startup
-    [navigationCoordinator setDefaultStartUpPaths:[NSArray arrayWithObjects:@"tt://splitview", @"tt://catalog", @"tt://launcherTest", @"tt://imageTest2", nil]];
+    [navigationCoordinator setDefaultStartUpPaths:[NSArray arrayWithObjects:@"tt://tabBarMain", @"tt://splitview", @"tt://catalog", @"tt://launcherTest", @"tt://imageTest2", nil]];
     
     if (TTIsPad()) {
-        // map the root navigator to the split view
+        // map the root navigator to the tab view
+        // Main tab , which serves as the apps container view controller
+        [map                    from:@"tt://tabBarMain" 
+              toSharedViewController:[LVMainTabBarController class]];
+        
         
         [map                    from: @"tt://splitview"
               toSharedViewController: [SplitCatalogController class]];
+        
+        [map                    from: @"tt://anotherTab"
+              toSharedViewController: [DetailDummyViewController class]];
+
         
                 
         SplitCatalogController* controller =
